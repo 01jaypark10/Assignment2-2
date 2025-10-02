@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 상세보기 - 도서관리 시스템</title>
+    <!--jQuery import-->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!--Bootstrap JS-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="my.css">
+    <style>
+        body {
+            background-color: rgb(248, 249, 250);
+            font-family: 'Arial', sans-serif;
+        }
+
+        .header h2 {
+            color: rgb(136, 199, 150);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .book-image {
+            width: 200px;
+            height: auto;
+            border-radius: 10px;
+            margin: 0 auto 20px;
+            display: block;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .book-info {
+            margin: 30px 0;
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 15px;
+            padding: 12px;
+            background-color: rgb(249, 249, 249);
+            border-radius: 5px;
+            align-items: center;
+        }
+
+        .info-row2{
+            display: flex;
+            margin-bottom: 15px;
+            padding: 12px;
+            border-radius: 5px;
+            align-items: center;
+            background-color: rgb(255, 255, 255);
+        }
+
+        .info-label {
+            font-weight: bold;
+            color: rgb(51, 51, 51);
+            width: 120px;
+            flex-shrink: 0;
+        }
+
+        .info-value {
+            color: rgb(85, 85, 85);
+            flex: 1;
+            font-size: 16px;
+        }
+        @media (max-width: 768px) {
+            .view-container {
+                margin: 20px;
+                padding: 30px 20px;
+            }
+
+            .info-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .info-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+
+            .btn-container {
+                text-align: center;
+            }
+
+            .btn-action {
+                width: 100%;
+                margin: 5px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="header">
+            <h2>도서 상세보기</h2>
+            <p>도서의 상세 정보를 확인하세요</p>
+        </div>
+
+        <!-- 도서 이미지 -->
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXP_dMJiXWFdLkphCLFq0jtp5Lnnry-SYXZA&s" class="book-image">
+
+        <!-- 도서 정보 -->
+        <div class="book-info">
+            <div class="info-row">
+                <div class="info-label">도서명:</div>
+                <div class="info-value" id="bookTitle">클린 코드</div>
+            </div>
+
+            <div class="info-row2">
+                <div class="info-label">저자:</div>
+                <div class="info-value" id="bookAuthor">로버트 C. 마틴</div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">출판사:</div>
+                <div class="info-value" id="bookPublisher">인사이트</div>
+            </div>
+
+            <div class="info-row2">
+                <div class="info-label">출판년도:</div>
+                <div class="info-value" id="bookYear">2013년</div>
+            </div>
+
+            <div class="info-row">
+                <div class="info-label">ISBN:</div>
+                <div class="info-value" id="bookISBN">978-89-6626-082-4</div>
+            </div>
+
+            <div class="info-row2">
+                <div class="info-label">장르:</div>
+                <div class="info-value">
+                    <span class="genre-badge-large genre-programming" id="bookGenre">프로그래밍</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 버튼 영역 -->
+        <div style="text-align: center; margin-top: 30px;">
+            <button type="button" class="button-group" id="editBtn">
+                수정
+            </button>
+            <button type="button" class="button-group" id="deleteBtn">
+                삭제
+            </button>
+            <a href="index.html" class="button-group btn-list">
+                목록
+            </a>
+        </div>
+    </div>
+
+
+</body>
+</html>

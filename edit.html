@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>도서 수정 - 도서관리 시스템</title>
+    <!--jQuery import-->
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <!--Bootstrap CSS-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <!--Bootstrap JS-->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <!--Custom CSS-->
+    <link rel="stylesheet" href="my.css">
+    <style>
+        .header h2 {
+            color: rgb(240, 173, 78);
+            font-weight: bold;
+        }
+
+        .form-control {
+            border: 2px solid rgb(221, 221, 221);
+            border-radius: 5px;
+            padding: 12px;
+            font-size: 14px;
+            transition: border-color 0.3s ease;
+            width: 100%;
+        }
+
+        .form-control:focus {
+            border-color: rgb(240, 173, 78);
+            box-shadow: 0 0 5px rgba(240, 173, 78, 0.3);
+            outline: none;
+        }
+
+        .input-valid {
+            border-color: rgb(40, 167, 69) !important;
+        }
+
+        .input-invalid {
+            border-color: rgb(220, 53, 69) !important;
+        }
+
+
+        #editButton {
+            background-color: rgb(240, 173, 78);
+        }
+
+        #editButton:hover {
+            background-color: rgb(230, 162, 60);
+        }
+
+        #cancelButton {
+            background-color: rgb(108, 117, 125);
+        }
+
+        #cancelButton:hover {
+            background-color: rgb(90, 98, 104);
+        }
+
+        .btn-container {
+            text-align: center;
+            margin-top: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .edit_box {
+                margin: 20px;
+                padding: 30px 20px;
+            }
+
+            .btn-container {
+                flex-direction: column;
+            }
+
+            #editButton,
+            #cancelButton {
+                margin: 5px 0;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="header">
+            <h2>도서 수정</h2>
+            <p>도서 정보를 수정하려면 아래 양식을 작성해주세요.</p>
+        </div>
+
+        <form id="editForm" class="form-container">
+            <div class="group">
+                <label for="bookTitle">도서명 <span class="required">*</span></label>
+                <input type="text" id="bookTitle" name="bookTitle" class="form-control" placeholder="도서명을 입력하세요"
+                    value="클린 코드" onchange="validateTitle()">
+                <div class="error-message" id="titleError"></div>
+            </div>
+
+            <div class="group">
+                <label for="author">저자 <span class="required">*</span></label>
+                <input type="text" id="author" name="author" class="form-control" placeholder="저자명을 입력하세요"
+                    value="로버트 C. 마틴" onchange="validateAuthor()">
+                <div class="error-message" id="authorError"></div>
+            </div>
+
+            <div class="group">
+                <label for="publishYear">출판년도 <span class="required">*</span></label>
+                <input type="number" id="publishYear" name="publishYear" class="form-control"
+                    placeholder="출판년도를 입력하세요 (예: 2023)" value="2008" onchange="validateYear()">
+                <div class="error-message" id="yearError"></div>
+            </div>
+
+            <div class="group">
+                <label for="publisher">출판사 <span class="required">*</span></label>
+                <input type="text" id="publisher" name="publisher" class="form-control" placeholder="출판사명을 입력하세요"
+                    value="인사이트" onchange="validatePublisher()">
+                <div class="error-message" id="publisherError"></div>
+            </div>
+            <div class="group">
+                <label for="isbn">ISBN</label>
+                <input type="text" id="isbn" name="isbn" class="form-control"
+                    placeholder="ISBN을 입력하세요 (예: 978-89-6626-082-4)" value="978-89-6626-082-4" onchange="validateISBN()">
+                <div class="error-message" id="isbnError"></div>
+            </div>
+
+            <div class="group">
+                <label>장르 <span class="required">*</span></label>
+                <div>
+                    <label class="radio-genre">
+                        <input type="radio" name="genre" value="프로그래밍" checked> 프로그래밍
+                    </label>
+                    <label class="radio-genre">
+                        <input type="radio" name="genre" value="소설"> 소설
+                    </label>
+                    <label class="radio-genre">
+                        <input type="radio" name="genre" value="과학"> 과학
+                    </label>
+                    <label class="radio-genre">
+                        <input type="radio" name="genre" value="역사"> 역사
+                    </label>
+                    <label class="radio-genre">
+                        <input type="radio" name="genre" value="자기계발"> 자기계발
+                    </label>
+                    <label class="radio-genre">
+                        <input type="radio" name="genre" value="기타"> 기타
+                    </label>
+                </div>
+                <div class="error-message" id="genreError"></div>
+            </div>
+
+            <div class="btn-container">
+                <button type="button" class="button-group" id="editButton">확인</button>
+                <button type="button" class="button-group" id="cancelButton">취소</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        // 성공 상태 표시
+        function showSuccess(field, errorMsg) {
+            field.removeClass('input-invalid').addClass('input-valid');
+            errorMsg.hide();
+        }
+
+        // 에러 상태 표시
+        function showError(field, errorMsg, message) {
+            field.removeClass('input-valid').addClass('input-invalid');
+            errorMsg.text(message).show();
+        }
+        function validateTitle() {
+            let title = $('#bookTitle').val().trim();
+            let titleField = $('#bookTitle');
+            let errorMsg = $('#titleError');
+
+            if (title === '') {
+                showError(titleField, errorMsg, '도서명은 필수 입력 항목입니다.');
+                return false;
+            } else if (title.length < 2) {
+                showError(titleField, errorMsg, '도서명은 최소 2자 이상이어야 합니다.');
+                return false;
+            } else {
+                showSuccess(titleField, errorMsg);
+                return true;
+            }
+        }
+
+
+        // 2. 저자 유효성 검사
+        function validateAuthor() {
+            let author = $('#author').val().trim();
+            let authorField = $('#author');
+            let errorMsg = $('#authorError');
+
+            if (author === '') {
+                showError(authorField, errorMsg, '저자명은 필수 입력 항목입니다.');
+                return false;
+            } else if (author.length < 2) {
+                showError(authorField, errorMsg, '저자명은 최소 2자 이상이어야 합니다.');
+                return false;
+            } else {
+                showSuccess(authorField, errorMsg);
+                return true;
+            }
+        }
+
+        // 3. 출판년도 유효성 검사
+        function validateYear() {
+            let year = $('#publishYear').val();
+            let yearField = $('#publishYear');
+            let errorMsg = $('#yearError');
+            let currentYear = new Date().getFullYear();
+
+            if (year === '') {
+                showError(yearField, errorMsg, '출판년도는 필수 입력 항목입니다.');
+                return false;
+            } else if (year < 1000 || year > currentYear) {
+                showError(yearField, errorMsg, `출판년도는 1000년부터 ${currentYear}년까지 입력 가능합니다.`);
+                return false;
+            } else {
+                showSuccess(yearField, errorMsg);
+                return true;
+            }
+        }
+
+        // 4. 출판사 유효성 검사
+        function validatePublisher() {
+            let publisher = $('#publisher').val().trim();
+            let publisherField = $('#publisher');
+            let errorMsg = $('#publisherError');
+
+            if (publisher === '') {
+                showError(publisherField, errorMsg, '출판사명은 필수 입력 항목입니다.');
+                return false;
+            } else if (publisher.length < 2) {
+                showError(publisherField, errorMsg, '출판사명은 최소 2자 이상이어야 합니다.');
+                return false;
+            } else {
+                showSuccess(publisherField, errorMsg);
+                return true;
+            }
+        }
+
+        // 5. ISBN 유효성 검사 (선택사항이지만 입력시 형식 체크)
+        function validateISBN() {
+            let isbn = $('#isbn').val().trim();
+            let isbnField = $('#isbn');
+            let errorMsg = $('#isbnError');
+
+            // ISBN은 선택사항이므로 비어있어도 됨
+            if (isbn === '') {
+                showSuccess(isbnField, errorMsg);
+                return true;
+            }
+
+            // ISBN 형식 체크 (기본적인 형태만)
+            const isbnPattern = /^(?:978|979)-\d{1,5}-\d{1,7}-\d{1,6}-\d$/;
+            if (!isbnPattern.test(isbn)) {
+                showError(isbnField, errorMsg, 'ISBN 형식이 올바르지 않습니다. (예: 978-89-6626-082-4)');
+                return false;
+            } else {
+                showSuccess(isbnField, errorMsg);
+                return true;
+            }
+        }
+
+        // 추가 버튼 클릭
+        $('#addbutton').on('click', function () {
+            alert("계시물이 추가됩니다")
+        });
+
+        // 취소 버튼 클릭
+        $('#cancelbutton').on('click', function () {
+            window.location.href = 'index.html';
+        });
+
+    </script>
+</body>
+
+</html>
