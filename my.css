@@ -124,7 +124,7 @@ body {
     margin-bottom: 20px;
 }
 
-/* 모바일 반응형 */
+/* index.html의 모바일 반응형 */
 @media (max-width: 768px) {
     .equal-height .col-sm-3 {
         flex: 0 0 50%;
@@ -136,5 +136,46 @@ body {
     .equal-height .col-sm-3 {
         flex: 0 0 100%;
         max-width: 100%;
+    }
+}
+
+
+/*add, edit, view의 버튼 반응형 스타일*/
+@media (max-width: 768px) {
+    .box {
+        margin: 20px;
+        padding: 30px 20px;
+    }
+
+    .group {
+        margin-bottom: 15px;
+    }
+
+    #addbutton,
+    #editbutton,
+    #deletebutton,
+    #listbutton,
+    #cancelbutton {
+        margin: 10px 5px;
+        width: calc(50% - 10px);
+        min-width: 120px;
+    }
+
+    /* 작은 화면에서는 버튼을 세로로 배치 */
+    @media (max-width: 480px) {
+
+        #addbutton,
+        #editbutton,
+        #deletebutton,
+        #listbutton,
+        #cancelbutton {
+            width: 100%;
+            margin: 5px 0;
+        }
+
+        .radio-genre {
+            display: block;
+            margin: 5px 0;
+        }
     }
 }
