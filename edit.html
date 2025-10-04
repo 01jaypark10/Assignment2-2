@@ -19,30 +19,6 @@
             font-weight: bold;
         }
 
-        .form-control {
-            border: 2px solid rgb(221, 221, 221);
-            border-radius: 5px;
-            padding: 12px;
-            font-size: 14px;
-            transition: border-color 0.3s ease;
-            width: 100%;
-        }
-
-        .form-control:focus {
-            border-color: rgb(240, 173, 78);
-            box-shadow: 0 0 5px rgba(240, 173, 78, 0.3);
-            outline: none;
-        }
-
-        .input-valid {
-            border-color: rgb(40, 167, 69) !important;
-        }
-
-        .input-invalid {
-            border-color: rgb(220, 53, 69) !important;
-        }
-
-
         #editbutton {
             background-color: rgb(240, 173, 78);
         }
@@ -63,7 +39,6 @@
             text-align: center;
             margin-top: 30px;
         }
-
     </style>
 </head>
 
@@ -73,6 +48,10 @@
             <h2>도서 수정</h2>
             <p>도서 정보를 수정하려면 아래 양식을 작성해주세요.</p>
         </div>
+
+        <!-- 도서 이미지-->
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRXP_dMJiXWFdLkphCLFq0jtp5Lnnry-SYXZA&s"
+            class="book-image">
 
         <form id="editForm" class="form-container">
             <div class="group">
